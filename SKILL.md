@@ -14,6 +14,7 @@ description: 历史学文献检索工具。支持 OpenAlex、Crossref、Google S
 3. **Google Scholar 链接** - 生成搜索链接（无官方 API）
 4. **检索历史** - 自动保存检索记录
 5. **多数据库联合检索** - 一次检索多个数据库
+6. **批判性评价** - 针对历史学研究特点的结构化评价框架
 
 ## 支持的数据库
 
@@ -53,6 +54,19 @@ python3 scripts/history_search.py --history 20
 ```bash
 # 设置邮箱（提高 Crossref 速率限制）
 python3 scripts/history_search.py --config email your_email@example.com
+```
+
+### 场景4: 批判性评价
+
+```bash
+# 生成一手史料研究评价清单
+python3 scripts/history_appraisal.py primary_source
+
+# 生成二手文献研究评价清单
+python3 scripts/history_appraisal.py secondary_source > appraisal.json
+
+# 查看所有评价类型
+python3 scripts/history_appraisal.py --list
 ```
 
 ## 检索语法
@@ -216,13 +230,51 @@ python3 scripts/history_search.py "French Revolution" --date 2015:2025
 | Web of Science | 付费 | 综合 | 多学科 |
 | Scopus | 付费 | 综合 | 多学科 |
 
+## 批判性评价工具
+
+针对历史学研究特点，提供专门的批判性评价框架：
+
+### 支持的评价类型
+
+| 类型 | 适用场景 |
+|-----|---------|
+| `primary_source` | 一手史料分析 |
+| `secondary_source` | 二手文献研究 |
+| `comparative_history` | 比较历史研究 |
+| `quantitative_history` | 量化历史研究 |
+| `microhistory` | 微观史研究 |
+| `oral_history` | 口述史研究 |
+| `book_review` | 书评 |
+
+### 评价维度示例（一手史料研究）
+
+1. **史料真实性** - 来源是否可靠？是否为原件？
+2. **史料背景** - 创作时间、地点、作者、目的是否明确？
+3. **偏见识别** - 作者是否有特定立场？
+4. **史料佐证** - 是否与其他独立史料相互印证？
+5. **解释合理性** - 解释是否基于文本证据？是否过度解读？
+6. **沉默的考量** - 史料未提及的内容是否被考虑？
+
+### 使用示例
+
+```bash
+# 生成评价清单
+python3 scripts/history_appraisal.py primary_source
+
+# 保存到文件并填写
+python3 scripts/history_appraisal.py secondary_source > my_review.json
+
+# 加载已填写的评价
+python3 scripts/history_appraisal.py primary_source my_review.json
+```
+
 ## 未来计划
 
 - [ ] 添加 JSTOR API 支持（需订阅）
+- [x] 添加批判性评价工具 ✅
 - [ ] 添加导出功能（CSV, BibTeX）
 - [ ] 添加去重功能
 - [ ] 添加全文获取功能
-- [ ] 添加批判性评价工具
 
 ## 相关资源
 
